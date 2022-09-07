@@ -10,8 +10,8 @@
  * @argv: array of arguments passed to main
  * Return: the string of the line
  */
-int main(int argc__attribute__((unused)),
-char **argv)
+
+int main(int argc__attribute__((unused)), char **argv)
 {
 char *line;
 char **args;
