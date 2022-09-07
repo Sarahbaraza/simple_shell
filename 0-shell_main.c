@@ -1,10 +1,14 @@
 #include "shell.h"
 
 /**
+ * main - main function for the shell
  * 1. prompt <-----
  * 2. input       |
  * 3. parse       |
  * 4. execute -----
+ * @argc: number of arguments passed to main
+ * @argv: array of arguments passed to main
+ * Return: the string of the line
  */
 int main(int argc__attribute__((unused)),
 char **argv)
