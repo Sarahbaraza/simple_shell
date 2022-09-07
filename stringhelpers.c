@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 
 /**
  * _strdup - duplicates a string
@@ -12,15 +12,14 @@ int i;
 char *dest_str;
 if (str == NULL)
 return (NULL);
-for (i = 0; str[i] != '\0'; i++)
-;
+for (i = 0; str[i] != '\0'; i++);
 dest_str = malloc(sizeof(char) * (i + 1));
 if (dest_str == NULL
 return (NULL);
-for (i = 0; str[i] != '\0'; i++)
-{
+for (i = 0; str[i] != '\0'; i++);
 dest_str[i] = str[i];
 }
+{
 dest_str[i] = '\0';
 return (dest_str);
 }
@@ -35,16 +34,15 @@ int _splitstring(char *str)
 int i;
 int searchflag = 1;
 int wordcount = 0;
+{
 for (i = 0; str[i]; i++
-{
 if (str[i] != ' ' && searchflag == 1)
-{
 wordcount += 1;
 searchflag = 0;
-}
 if (str[i + 1] == ' ')
 searchflag = 1;
 }
+{
 return (wordcount);
 }
 /**
