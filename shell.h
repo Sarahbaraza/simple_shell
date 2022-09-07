@@ -1,46 +1,71 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef _SHELL_H_
+#define _SHELL_H_
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <signal.h>
 #include <unistd.h>
-#include <sys/wait.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/stat.h>
-/* innitial size of buffer for user input */
-#define READ_BUF 1000
-#define DELIM " \a\t\r\n"
-/* command type */
-#define INTERNAL_CMD 1
-#define EXTERNAL_CMD 2
-#define PATH_CMD 3
-#define INVALID_CMD -1
-/* declaring global environ variable */
-extern char **environ;
-typedef struct internal_func
+#include <sys/wait.h>
+#include <limits.h>
+#include <signal.h>
+
+/**
+ * struct variables - variables
+ * @av: command line arguments
+ * @buffer: buffer of command
+ * @env: environment variables
+ * @count: count of commands entered
+ * @argv: arguments at opening of shell
+ * @status: exit status
+ * @commands: commands to execute
+ */
+
+typedef struct variables
 {
-char *cmd_name;
-void (*func)(char **command);
-} map_func;
-/* builtin command */
-void env(char **);
-void ch_dir(char **);
-void quit(char **);
-/* shell utility function */
-void ctrl_C(int);
-char *_getline(void);
-char **tokenize(char *, const char *);
-void shell_execute(char **, int);
-int check_command(char *);
-void execute(char **, int);
-/* shell helper function */
-int print(char *, int);
-void (*get_func(char *))(char **);
-/* shell string functions */
-int _strlen(char *);
-int _strcmp(char*, char *);
-/* shell memory management */
-void *_realloc(void *, int, int);
-/* environment path */
-char *_getenv(char *);
-#endif /* SHELL_H */
+char **av;
+char *buffer;
+char **env;
+size_t count;
+char **argv;
+int status;
+char **commands;
+} vars_t;
+/**
+ * struct builtins - struct for the builtin functions
+ * @name: name of builtin command
+ * @f: function for corresponding builtin
+ */
+typedef struct builtins
+{
+char *name;
+void (*f)(vars_t *);
+} builtins_t;
+char **make_env(char **env);
+void free_env(char **env);
+ssize_t _puts(char *str);
+char *_strdup(char *strtodup);
+int _strcmpr(char *strcmp1, char *strcmp2);
+char *_strcat(char *strc1, char *strc2);
+unsigned int _strlen(char *str);
+char **tokenize(char *buffer, char *delimiter);
+char **_realloc(char **ptr, size_t *size);
+char *new_strtok(char *str, const char *delim);
+void (*check_for_builtins(vars_t *vars))(vars_t *vars);
+void new_exit(vars_t *vars);
+void _env(vars_t *vars);
+void new_setenv(vars_t *vars);
+void new_unsetenv(vars_t *vars);
+void add_key(vars_t *vars);
+char **find_key(char **env, char *key);
+char *add_value(char *key, char *value);
+int _atoi(char *str);
+void check_for_path(vars_t *vars);
+int path_execute(char *command, vars_t *vars);
+char *find_path(char **env);
+int execute_cwd(vars_t *vars);
+int check_for_dir(char *str);
+void print_error(vars_t *vars, char *msg);
+void _puts2(char *str);
+char *_uitoa(unsigned int count);
+#endif /* _SHELL_H_ */
